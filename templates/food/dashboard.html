@@ -1,0 +1,111 @@
+{% extends "food/base.html" %}
+{% block content %}
+{% load static %}
+<style>
+  .card-container {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .card {
+    display: inline-block;
+    margin: 10px;
+    min-width: 300px;
+    height: 400px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    background-color: #fff;
+    transition: transform 0.3s ease-out;
+    scroll-snap-align: center;
+  }
+  
+  .card:hover {
+    transform: scale(1.05);
+  }
+  
+  .card img {
+    height: 200px;
+    object-fit: cover;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+  
+  .card-body {
+    padding: 20px;
+  }
+  
+  .card-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .card-text {
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+  .btn{
+    color: black;
+    background-color: #06C167;
+    outline: #06C167;
+
+  }
+  .btn:hover{
+    transform: scale(1.1);
+    color: black;
+    background-color: #06C167;
+
+  }
+  span{
+    color: #06C167;
+  }
+
+  
+  </style>
+<secion id="food_donations">
+   <center> <h2>Avalibale <span> Food </span></h2></center>
+    {% for food in foods %}
+    {% if food.status is True %}
+    <div class="card" style="width: 18rem;  margin: 3rem;" >
+      <img src="{{ food.image.url }}" class="card-img-top" alt="{{food.name}}" width="3rem">
+      <div class="card-body">
+        <h5 class="card-title">{{food.name}}</h5>
+        <p class="card-text">Food-Type : {{food.food_type}}</p>
+        <p class="card-text">Category : {{food.category}}</p>
+        <p class="card-text">Avalibale for {{food.qnt}} People</p>
+      
+        <form method="get" action="{% url "placerequest" %}">
+          <input type="text" value="food" name="request_type" hidden>
+          <input type="text" hidden value="{{food.food_id}}" name="food_id">
+          <input type="submit" class="btn " value="Place a Request">
+        </form>
+      {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </secion>
+  
+  <secion id="food_donations">
+    <center><h2>Avalibale <span>Cloths</span></h2></center>
+    {% for cloth in cloths %}
+    {% if cloth.status is True %}
+    <div class="card" style="width: 18rem;  margin: 3rem; object-fit: cover;" >
+      <img src="{{ cloth.image.url }}" class="card-img-top" alt="{{cloth.name}}" width="3rem">
+      <div class="card-body">
+        <h5 class="card-title">{{cloth.name}}</h5>
+        <p class="card-text">Food-Type : {{cloth.cloth_type}}</p>
+        <p class="card-text">Category : {{cloth.category}}</p>
+        <p class="card-text">Avalibale : {{cloth.qnt}} Pairs</p>
+        <form method="get" action="{% url "placerequest" %}">
+          <input type="text" value="cloth" name="request_type" hidden>
+          <input type="text" hidden value="{{cloth.cloth_id}}" name="cloth_id">
+          <input type="submit" class="btn ">Place a Request</input>
+        </form>
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </secion>
+
+  {% endblock %}

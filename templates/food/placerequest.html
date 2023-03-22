@@ -1,0 +1,32 @@
+{% extends "food/base.html" %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static '/loginstyle.css'%}">
+<div class="container">
+<div class="regform">
+        
+    <form method="post">
+     {% csrf_token %}
+     <div>
+        <input type="number" value="{{item_id}}" name="item_id" hidden>
+        <input type="text" value="{{request_type}}" name="request_type" hidden>
+        <input type="text" value="{{item.name}}" name="item_name">
+        <center><img src="{{item.image.url}}" alt="{{item.name}}" width="50%" style="margin: 1rem;"></center>
+     </div>
+     
+     <div class="input">
+        <input type="textarea" placeholder="Address" name="address">
+     </div>
+     <div class="input">
+        <input type="number" placeholder="mobile" name="mobile">
+     </div>
+     <div class="btn">
+        <button type="submit">Request</button>
+     </div>
+    </form>
+  </div>
+  
+
+</div>
+
+{% endblock %}

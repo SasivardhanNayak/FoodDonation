@@ -1,0 +1,74 @@
+<div class="profile">
+    <section class="cover" >
+
+        </section>
+        <div class="profilebox" >
+            <br>
+            <p class="heading" style="text-align: left;font-size:30px;"> <img src="" alt=""  >Profile</p>
+            <div class="info" style="padding-left:10px;">
+            <p >Name  :{{user.username}} </p><br>
+            <p >Email :{{user.email}} </p><br>
+            
+
+              
+              <a href="#" style="float: left;margin-top: 6px ;border-radius:5px; background-color: #06C167; color: white;padding:1px;padding-left: 10px;padding-right: 10px;">Edit</a>
+              </div>
+              <br>
+              <br>
+
+            
+            
+         <hr>
+         <br>
+         <p class="heading">Your donations</p>
+         
+   <div class="table-container" >
+
+         <div class="table-wrapper">
+        <table class="table">
+        <thead>
+        <tr>
+            <th>food</th>
+            <th>Image</th>
+            <th>quantity</th>
+            <th>status</th>
+        </tr>
+        </thead>
+        {% for food in food_donations %}
+       <tbody>
+        
+        <td>{{food.name}}</td>
+        <td><img src="{{food.image.url}}" alt="{{item.name}}" width="100px" style="margin: 1rem;"></td>
+        <td>{{food.qnt}}</td>
+        <td>{{food.status}}</td>
+        
+    </tbody>
+    {% endfor %}
+    {% for cloth in cloth_donations %}
+       <tbody>
+        
+        <td>{{cloth.name}}</td>
+        <td><img src="{{cloth.image.url}}" alt="{{item.name}}" width="100px" style="margin: 1rem;"></td>
+        <td>{{cloth.qnt}}</td>
+        <td>{{cloth.status}}</td>
+        
+    </tbody>
+    {% endfor %}
+    </table>
+         </div>
+   </div>          
+
+        </div>
+
+
+
+    
+     
+
+    </div>
+
+
+   
+    
+    
+</body>
