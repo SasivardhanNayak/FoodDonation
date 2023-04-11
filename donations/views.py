@@ -72,7 +72,7 @@ def donate_food(request):
     if request.method=="POST":
         user=request.user
         name=request.POST.get("foodname")
-        image=request.POST.get("foodimage")
+        image=request.FILES.get("foodimage")
         food_type=request.POST.get("meal")
         food_category=request.POST.get("image-choice")
         qnt=request.POST.get("quantity")
@@ -86,7 +86,7 @@ def donate_cloth(request):
     if request.method=="POST":
         user=request.user
         name=request.POST.get("clothname")
-        image=request.POST.get("clothimage")
+        image=request.FILES.get("clothimage")
         cloth_type=request.POST.get("cloth_type")
         cloth_category=request.POST.get("cloth-choice")
         qnt=request.POST.get("quantity")
@@ -114,13 +114,15 @@ def placerequest(request):
         request_type=request.POST.get("request_type")
         if request_type=="food":
             item=food.objects.get(food_id=item_id)
+            donar=item.user
             item.status=False
             item.save()
         if request_type=="cloth":
             item=cloths.objects.get(cloth_id=item_id)
+            donar=item.user
             item.status=False
             item.save()
-        new_request=Donation_Request(request_type=request_type,item_id=item_id,user=user,Address=address,contact=mobile)
+        new_request=Donation_Request(request_type=request_type,item_id=item_id,user=user,Address=address,contact=mobile,donar=donar)
         new_request.save()
         return HttpResponseRedirect(reverse("dashboard"))
     return HttpResponseRedirect(reverse("dashboard"))
@@ -130,3 +132,20 @@ def profile(request):
     food_donations=food.objects.filter(user=user)
     cloth_donations=cloths.objects.filter(user=user)
     return render(request,"food/profile.html",{"food_donations":food_donations,"cloth_donations":cloth_donations})
+
+def pending_request(request):
+    if request.method=="POST":
+        request_id=request.POST.get("food_id")
+        status=request.POST.get("status")
+        if status=="accept_request":
+            donation_request = Donation_Request.objects.get(request_id=request_id)
+            donation_request.donate_status = True
+            donation_request.save()
+        else:
+            donation_request = Donation_Request.objects.get(request_id=request_id)
+            donation_request.delete()
+        return redirect("pending_request")
+    else:
+        user=request.user
+        peding_donations=Donation_Request.objects.filter(donar=user,donate_status=False)
+        return render(request,"food/pending_request.html",{"list":peding_donations})

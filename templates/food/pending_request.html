@@ -1,0 +1,87 @@
+{% extends "food/base.html" %}
+{% block content %}
+{% load static %}
+<style>
+    .card-container {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    .card {
+      display: inline-block;
+      margin: 10px;
+      min-width: 300px;
+      height: 200px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      background-color: #fff;
+      transition: transform 0.3s ease-out;
+      scroll-snap-align: center;
+    }
+    
+    .card:hover {
+      transform: scale(1.05);
+    }
+    
+    .card img {
+      height: 200px;
+      object-fit: cover;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+    }
+    
+    .card-body {
+      padding: 20px;
+    }
+    
+    .card-title {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    
+    .card-text {
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
+    .btn{
+      color: black;
+      background-color: #06C167;
+      outline: #06C167;
+  
+    }
+    .btn:hover{
+      transform: scale(1.1);
+      color: black;
+      background-color: #06C167;
+  
+    }
+    span{
+      color: #06C167;
+    }
+  
+    
+    </style>
+<div>
+    <secion id="food_donations">
+        <center> <h2>pending Request for <span> Food </span></h2></center>
+         {% for food in list %}
+         <div class="card" style="width: 7rem;  margin: 3rem;" >
+           <div class="card-body">
+             <h5 class="card-title">Requested by: {{food.user}}</h5><br>
+             <p class="card-text">Contact : {{food.contact}}</p>
+             <p class="card-text">Address : {{food.Address}}</p>
+           
+             <form method="POST" action="{% url "pending_request" %}">
+                {% csrf_token %}
+               <input type="number" hidden value="{{food.request_id}}" name="food_id">
+               <button type="submit" class="btn" name="status" value="accept_request">Accept</button>
+               <button type="submit" calss="btn" name="status" value="reject_request">Reject</button>
+             </form>
+           </div>
+         </div>
+         {% endfor %}
+       </secion>
+</div>
+{% endblock %}
